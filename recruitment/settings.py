@@ -25,9 +25,15 @@ SECRET_KEY = 'django-insecure-yp5nfc*91(6^=%n(9trf)t%i-!+)3$^jf*@gzal^8r!ul7ohwo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "smartrecruitment-vknn.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://smartrecruitment-vknn.onrender.com",
+]
 # Application definition
 
 INSTALLED_APPS = [
