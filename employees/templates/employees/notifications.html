@@ -1,0 +1,52 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<div class="container" style="max-width:900px; margin:30px auto;">
+
+    <h2>🔔 My Notifications</h2>
+
+    <p>Unread Notifications: {{ unread_count }}</p>
+
+    {% for notification in notifications %}
+
+        <div style="padding:18px; margin:15px 0; border:1px solid #ddd; border-radius:8px;">
+
+            <h3>
+                {% if notification.is_read %}
+                    Notification
+                {% else %}
+                    🔵 New Notification
+                {% endif %}
+            </h3>
+
+            <p>{{ notification.message }}</p>
+
+            <small>
+                {{ notification.created_at|date:"d M Y, h:i A" }}
+            </small>
+
+            {% if not notification.is_read %}
+                <br><br>
+                <a href="{% url 'mark_notification_read' notification.id %}">
+                    Mark as Read
+                </a>
+            {% else %}
+                <p>✓ Read</p>
+            {% endif %}
+
+        </div>
+
+    {% empty %}
+
+        <p>No notifications available.</p>
+
+    {% endfor %}
+
+    <a href="{% url 'candidate_dashboard' %}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

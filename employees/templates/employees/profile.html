@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+</head>
+<body>
+
+    <h1>My Profile</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <label>Phone:</label><br>
+        <input type="text" name="phone" value="{{ candidate.phone }}">
+        <br><br>
+
+        <label>Education:</label><br>
+        <input type="text" name="education" value="{{ candidate.education }}">
+        <br><br>
+
+        <label>Skills:</label><br>
+        <textarea name="skills" rows="5" cols="40">{{ candidate.skills }}</textarea>
+        <br><br>
+
+        <label>Resume:</label><br>
+        <input type="file" name="resume">
+        <br><br>
+
+        {% if candidate.resume %}
+            <p>Current Resume: {{ candidate.resume.name }}</p>
+        {% endif %}
+
+        <button type="submit">Save Profile</button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'candidate_dashboard' %}">
+        Back to Dashboard
+    </a>
+
+</body>
+</html>

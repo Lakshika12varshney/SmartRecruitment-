@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Shortlisted Candidates</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #173b7a;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 18px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .status {
+            color: #173b7a;
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #173b7a;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        Shortlisted Candidates
+    </h1>
+
+    {% for application in applications %}
+
+        <div class="card">
+
+            <h2>
+                {{ application.candidate.user.username }}
+            </h2>
+
+            <p>
+                <strong>Job:</strong>
+                {{ application.job.title }}
+            </p>
+
+            <p>
+                <strong>Company:</strong>
+                {{ application.job.company }}
+            </p>
+
+            <p class="status">
+                Status: Shortlisted
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+            No shortlisted candidates found.
+        </p>
+
+    {% endfor %}
+
+    <a href="{% url 'hr_dashboard' %}" class="back">
+        ← Back to HR Dashboard
+    </a>
+
+</div>
+
+</body>
+
+</html>

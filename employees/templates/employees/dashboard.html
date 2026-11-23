@@ -1,0 +1,700 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<style>
+
+    /* ===== PAGE ===== */
+
+    .dashboard-wrapper {
+        max-width: 1200px;
+        margin: auto;
+        position: relative;
+    }
+
+
+    /* ===== ANIMATED BACKGROUND ===== */
+
+    .dashboard-wrapper::before {
+        content: "";
+        position: fixed;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: #dbe7ff;
+        top: 120px;
+        left: -100px;
+        opacity: 0.5;
+        z-index: -1;
+        animation: float 7s ease-in-out infinite;
+    }
+
+    .dashboard-wrapper::after {
+        content: "";
+        position: fixed;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: #e8ddff;
+        right: -100px;
+        bottom: 80px;
+        opacity: 0.5;
+        z-index: -1;
+        animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-25px);
+        }
+    }
+
+
+    /* ===== WELCOME ===== */
+
+    .welcome-section {
+        background: linear-gradient(
+            120deg,
+            #173b7a,
+            #315ca6,
+            #5d7bc4,
+            #173b7a
+        );
+
+        background-size: 300% 300%;
+
+        color: white;
+        padding: 40px;
+        border-radius: 22px;
+        margin-bottom: 30px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+        flex-wrap: wrap;
+
+        box-shadow: 0 15px 35px rgba(23, 59, 122, 0.20);
+
+        animation:
+            gradientMove 8s ease infinite,
+            slideDown 0.8s ease;
+    }
+
+    @keyframes gradientMove {
+
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @keyframes slideDown {
+
+        from {
+            opacity: 0;
+            transform: translateY(-25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .welcome-section h1 {
+        font-size: 34px;
+        margin-bottom: 10px;
+    }
+
+    .welcome-section p {
+        font-size: 16px;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    .welcome-btn {
+        display: inline-block;
+        background: white;
+        color: #173b7a;
+        padding: 14px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .welcome-btn:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    }
+
+
+    /* ===== STATS ===== */
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 7px 20px rgba(0,0,0,0.07);
+        transition: 0.35s ease;
+
+        animation: fadeUp 0.8s ease both;
+    }
+
+    .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(23,59,122,0.14);
+    }
+
+    .stat-icon {
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .stat-card h3 {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .stat-number {
+        font-size: 34px;
+        font-weight: bold;
+        color: #173b7a;
+    }
+
+
+    /* ===== COMMON CARDS ===== */
+
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+        background: rgba(255,255,255,0.96);
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 7px 20px rgba(0,0,0,0.07);
+
+        animation: fadeUp 0.9s ease both;
+    }
+
+    .dashboard-card h2 {
+        color: #173b7a;
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* ===== PROFILE ===== */
+
+    .profile-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 13px 0;
+        border-bottom: 1px solid #eeeeee;
+        gap: 15px;
+    }
+
+    .profile-label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .profile-value {
+        color: #222;
+        text-align: right;
+    }
+
+
+    /* ===== ACTIONS ===== */
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .action-btn {
+        display: block;
+        padding: 16px;
+        border-radius: 10px;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+
+        border: 1px solid #dce3f0;
+        background: #f7f9fc;
+        color: #173b7a;
+
+        transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+        background: #173b7a;
+        color: white;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 18px rgba(23,59,122,0.15);
+    }
+
+
+    /* ===== APPLICATIONS ===== */
+
+    .application-item {
+        padding: 18px 0;
+        border-bottom: 1px solid #eeeeee;
+        transition: 0.25s ease;
+    }
+
+    .application-item:hover {
+        transform: translateX(6px);
+    }
+
+    .application-item:last-child {
+        border-bottom: none;
+    }
+
+    .application-title {
+        font-weight: bold;
+        color: #173b7a;
+        font-size: 17px;
+        margin-bottom: 6px;
+    }
+
+    .application-info {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 13px;
+        border-radius: 20px;
+        background: #eef3ff;
+        color: #173b7a;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .empty-message {
+        color: #777;
+        padding: 15px 0;
+    }
+
+
+    /* ===== LOGOUT ===== */
+
+    .logout-section {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .logout-btn {
+        display: inline-block;
+        padding: 12px 28px;
+        background: #173b7a;
+        color: white;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .logout-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 18px rgba(23,59,122,0.20);
+    }
+
+
+    /* ===== MOBILE ===== */
+
+    @media (max-width: 800px) {
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .welcome-section {
+            text-align: center;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 500px) {
+
+        .welcome-section {
+            padding: 28px 20px;
+        }
+
+        .welcome-section h1 {
+            font-size: 26px;
+        }
+
+        .dashboard-card {
+            padding: 22px;
+        }
+
+        .profile-row {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .profile-value {
+            text-align: left;
+        }
+    }
+
+</style>
+
+
+<div class="dashboard-wrapper">
+
+
+    <!-- ===== WELCOME ===== -->
+
+    <div class="welcome-section">
+
+        <div>
+
+            <h1>
+                Welcome back, {{ request.user.username }} 👋
+            </h1>
+
+            <p>
+                Manage your profile, explore jobs and track your applications.
+            </p>
+
+        </div>
+
+        <a href="{% url 'available_jobs' %}" class="welcome-btn">
+            Explore Jobs →
+        </a>
+
+    </div>
+
+
+    <!-- ===== STATISTICS ===== -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📄
+            </div>
+
+            <h3>
+                Total Applications
+            </h3>
+
+            <div class="stat-number">
+                {{ total_applications }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ⭐
+            </div>
+
+            <h3>
+                Shortlisted
+            </h3>
+
+            <div class="stat-number">
+                {{ shortlisted }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🎯
+            </div>
+
+            <h3>
+                Selected
+            </h3>
+
+            <div class="stat-number">
+                {{ selected }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===== PROFILE + QUICK ACTIONS ===== -->
+
+    <div class="main-grid">
+
+
+        <!-- PROFILE -->
+
+        <div class="dashboard-card">
+
+            <h2>
+                👤 My Profile
+            </h2>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Username
+                </span>
+
+                <span class="profile-value">
+                    {{ request.user.username }}
+                </span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Email
+                </span>
+
+                <span class="profile-value">
+                    {{ request.user.email }}
+                </span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Education
+                </span>
+
+                <span class="profile-value">
+
+                    {% if candidate.education %}
+                        {{ candidate.education }}
+                    {% else %}
+                        Not added
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Skills
+                </span>
+
+                <span class="profile-value">
+
+                    {% if candidate.skills %}
+                        {{ candidate.skills }}
+                    {% else %}
+                        Not added
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <br>
+
+            <a href="{% url 'profile' %}" class="action-btn">
+                ✏️ Edit Profile
+            </a>
+
+        </div>
+
+
+      <!-- QUICK ACTIONS -->
+
+<div class="dashboard-card">
+
+    <h2>
+        ⚡ Quick Actions
+    </h2>
+
+    <div class="action-grid">
+
+        <a href="{% url 'available_jobs' %}" class="action-btn">
+            🔎<br>
+            Browse Jobs
+        </a>
+
+        <a href="{% url 'available_jobs' %}" class="action-btn">
+            📄<br>
+            Apply for Jobs
+        </a>
+
+        <a href="{% url 'application_status' %}" class="action-btn">
+            📊<br>
+            Applications
+        </a>
+
+        <!-- NEW NOTIFICATIONS BUTTON -->
+        <a href="{% url 'candidate_notifications' %}" class="action-btn">
+            🔔<br>
+            Notifications
+            <br>
+            <small>{{ unread_notifications_count }} Unread</small>
+        </a>
+
+        <a href="{% url 'profile' %}" class="action-btn">
+            👤<br>
+            My Profile
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+
+
+    <!-- ===== RECENT APPLICATIONS ===== -->
+
+    <div class="dashboard-card">
+
+        <h2>
+            📋 Recent Applications
+        </h2>
+
+
+        {% if applications %}
+
+            {% for application in applications %}
+
+                <div class="application-item">
+
+                    <div class="application-title">
+                        {{ application.job.title }}
+                    </div>
+
+                    <div class="application-info">
+                        {{ application.job.company }}
+                        •
+                        {{ application.job.location }}
+                    </div>
+
+                    <span class="status">
+                        {{ application.status }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+
+            <br>
+
+            <a href="{% url 'application_status' %}"
+               class="action-btn">
+
+                View All Applications →
+
+            </a>
+
+
+        {% else %}
+
+            <p class="empty-message">
+                You have not applied for any jobs yet.
+            </p>
+
+
+            <a href="{% url 'available_jobs' %}"
+               class="action-btn">
+
+                🚀 Find Your First Job
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ===== LOGOUT ===== -->
+
+    <div class="logout-section">
+
+        <a href="{% url 'logout' %}"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

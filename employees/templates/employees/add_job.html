@@ -1,0 +1,203 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<div style="
+    max-width:800px;
+    margin:auto;
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+">
+
+    <h1 style="
+        color:#173b7a;
+        margin-bottom:10px;
+    ">
+        Add New Job
+    </h1>
+
+    <p style="
+        color:#666;
+        margin-bottom:25px;
+    ">
+        Create a new job opportunity for candidates.
+    </p>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <label>
+            Job Title
+        </label>
+
+        <input
+            type="text"
+            name="title"
+            placeholder="e.g. Python Developer"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 18px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        >
+
+
+        <label>
+            Company
+        </label>
+
+        <input
+            type="text"
+            name="company"
+            placeholder="e.g. TCS"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 18px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        >
+
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            name="description"
+            rows="5"
+            placeholder="Enter job description"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 18px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        ></textarea>
+
+
+        <label>
+            Required Skills
+        </label>
+
+        <input
+            type="text"
+            name="required_skills"
+            placeholder="Python, Django, SQL, HTML"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 18px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        >
+
+
+        <label>
+            Experience (Years)
+        </label>
+
+        <input
+            type="number"
+            name="experience"
+            min="0"
+            value="0"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 18px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        >
+
+
+        <label>
+            Location
+        </label>
+
+        <input
+            type="text"
+            name="location"
+            placeholder="e.g. Noida"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 18px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        >
+
+
+        <label>
+            Salary
+        </label>
+
+        <input
+            type="text"
+            name="salary"
+            placeholder="e.g. 4-6 LPA"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                margin:8px 0 25px;
+                border:1px solid #dce3f0;
+                border-radius:8px;
+            "
+        >
+
+
+        <button
+            type="submit"
+            style="
+                background:#173b7a;
+                color:white;
+                border:none;
+                padding:13px 25px;
+                border-radius:8px;
+                font-weight:bold;
+                cursor:pointer;
+            "
+        >
+            Save Job
+        </button>
+
+
+        <a
+            href="{% url 'hr_dashboard' %}"
+            style="
+                display:inline-block;
+                margin-left:10px;
+                padding:12px 22px;
+                border:1px solid #173b7a;
+                color:#173b7a;
+                text-decoration:none;
+                border-radius:8px;
+            "
+        >
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

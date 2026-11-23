@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Recruitment Management System</title>
+
+    <style>
+        /* GLOBAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(120deg, #173b7a, #2859a5, #173b7a);
+            background-size: 200% 200%;
+            animation: headerGradient 8s ease infinite;
+
+            color: white;
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: relative;
+            z-index: 10;
+
+            box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+        }
+
+        @keyframes headerGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* LOGO */
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+            color: white;
+            animation: logoFade 0.8s ease;
+        }
+
+        @keyframes logoFade {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* NAVIGATION */
+        header nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        header nav > a:not(.notification-bell) {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+            color: #173b7a !important;
+
+            text-decoration: none !important;
+
+            padding: 11px 20px;
+            min-width: 85px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            border: 1px solid white;
+            border-radius: 8px;
+
+            transition: all 0.3s ease;
+        }
+
+        header nav > a:not(.notification-bell)::after {
+            display: none;
+        }
+
+        header nav > a:not(.notification-bell):hover {
+            background: #e4edff;
+            color: #173b7a !important;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0,0,0,0.15);
+        }
+
+        /* NOTIFICATION BELL */
+        header nav > a.notification-bell {
+            position: relative;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white !important;
+            background: transparent !important;
+
+            border: none;
+            text-decoration: none !important;
+
+            padding: 8px;
+            margin-left: 5px;
+
+            font-size: 25px;
+
+            transition: transform 0.3s ease;
+        }
+
+        header nav > a.notification-bell:hover {
+            transform: scale(1.15);
+        }
+
+        header nav > a.notification-bell::after {
+            display: none;
+        }
+
+        .notification-bell span {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+
+            background: #ff2222;
+            color: white;
+
+            font-size: 11px;
+            font-weight: bold;
+
+            min-width: 19px;
+            height: 19px;
+            padding: 2px 4px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MAIN */
+        main {
+            min-height: 72vh;
+            padding: 60px 50px;
+            position: relative;
+        }
+
+        /* HERO */
+        .hero {
+            max-width: 950px;
+            margin: auto;
+            text-align: center;
+            animation: heroShow 0.9s ease;
+        }
+
+        @keyframes heroShow {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: #173b7a;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* MAIN BUTTONS */
+        .btn {
+            position: relative;
+            overflow: hidden;
+
+            display: inline-block;
+            padding: 13px 27px;
+            margin: 8px;
+
+            background: #173b7a;
+            color: white;
+
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: 600;
+
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            background: #0f2854;
+            box-shadow: 0 10px 22px rgba(23,59,122,0.20);
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -110%;
+            width: 80%;
+            height: 100%;
+
+            background: rgba(255,255,255,0.18);
+            transform: skewX(-25deg);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 130%;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #173b7a;
+            border: 2px solid #173b7a;
+        }
+
+        .btn-outline:hover {
+            background: #173b7a;
+            color: white;
+        }
+
+        /* FEATURES */
+        .features {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 25px;
+            margin-top: 55px;
+            flex-wrap: wrap;
+        }
+
+        /* FEATURE CARDS */
+        .card {
+            position: relative;
+            width: 290px;
+            padding: 30px 25px;
+
+            background: white;
+            border-radius: 18px;
+
+            text-align: center;
+            text-decoration: none;
+            color: #222;
+
+            border: 1px solid #e7ebf2;
+            box-shadow: 0 7px 20px rgba(0,0,0,0.07);
+
+            transition: all 0.35s ease;
+            animation: cardAppear 0.8s ease both;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #173b7a;
+            box-shadow: 0 18px 32px rgba(23,59,122,0.14);
+        }
+
+        /* CARD ICON */
+        .card-icon {
+            font-size: 42px;
+            margin-bottom: 17px;
+            transition: transform 0.35s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.18) rotate(5deg);
+        }
+
+        /* CARD TEXT */
+        .card h3 {
+            color: #173b7a;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .card-link {
+            display: inline-block;
+            color: #173b7a;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-link {
+            transform: translateX(6px);
+        }
+
+        /* FOOTER */
+        footer {
+            background: linear-gradient(120deg, #173b7a, #2859a5, #173b7a);
+            background-size: 200% 200%;
+            animation: footerGradient 8s ease infinite;
+
+            color: white;
+            text-align: center;
+            padding: 24px;
+            margin-top: 25px;
+        }
+
+        @keyframes footerGradient {
+            0% { background-position: 100% 50%; }
+            50% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 750px) {
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            header nav > a:not(.notification-bell) {
+                padding: 8px 12px;
+                min-width: auto;
+                font-size: 13px;
+            }
+
+            main {
+                padding: 45px 20px;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 360px;
+            }
+        }
+
+        /* REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <div class="logo">
+            SmartRecruit
+        </div>
+
+        <!-- Correct NAV tag -->
+        <nav>
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+            <a href="{% url 'available_jobs' %}">
+                Jobs
+            </a>
+
+            {% if request.user.is_authenticated and not request.user.is_staff %}
+
+                <a href="{% url 'candidate_notifications' %}"
+                   class="notification-bell"
+                   title="My Notifications">
+
+                    🔔
+
+                    <span>
+                        {{ unread_notifications_count|default:0 }}
+                    </span>
+
+                </a>
+
+            {% endif %}
+
+        </nav>
+
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        {% block content %}
+
+            <!-- HERO -->
+            <section class="hero">
+
+                <h1>
+                    Smart Recruitment Management System
+                </h1>
+
+                <p>
+                    Find the right opportunities, apply easily,
+                    and manage your applications through one platform.
+                </p>
+
+                <a href="{% url 'login' %}" class="btn">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}" class="btn btn-outline">
+                    Register
+                </a>
+
+            </section>
+
+            <!-- FEATURE CARDS -->
+            <section class="features">
+
+                <a href="{% url 'available_jobs' %}" class="card">
+
+                    <div class="card-icon">🔎</div>
+
+                    <h3>Find Your Dream Job</h3>
+
+                    <p>
+                        Explore available jobs based on
+                        skills, experience and location.
+                    </p>
+
+                    <span class="card-link">
+                        Explore Jobs →
+                    </span>
+
+                </a>
+
+                <a href="{% url 'login' %}" class="card">
+
+                    <div class="card-icon">📄</div>
+
+                    <h3>Quick &amp; Easy Apply</h3>
+
+                    <p>
+                        Login to your candidate account
+                        and apply for suitable jobs.
+                    </p>
+
+                    <span class="card-link">
+                        Login to Apply →
+                    </span>
+
+                </a>
+
+                <a href="{% url 'application_status' %}" class="card">
+
+                    <div class="card-icon">📊</div>
+
+                    <h3>Track Your Application</h3>
+
+                    <p>
+                        Check your application status
+                        anytime from your account.
+                    </p>
+
+                    <span class="card-link">
+                        Track Status →
+                    </span>
+
+                </a>
+
+            </section>
+
+        {% endblock %}
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 Smart Recruitment Management System
+        </p>
+
+        <p>
+            Candidate Recruitment Portal
+        </p>
+
+    </footer>
+
+</body>
+</html>

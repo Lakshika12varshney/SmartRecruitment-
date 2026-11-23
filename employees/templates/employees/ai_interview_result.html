@@ -1,0 +1,286 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<style>
+
+    .result-page {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .result-header {
+        background: linear-gradient(135deg, #173b7a, #416bb6);
+        color: white;
+        padding: 35px;
+        border-radius: 22px;
+        text-align: center;
+        margin-bottom: 25px;
+        box-shadow: 0 12px 30px rgba(23, 59, 122, 0.18);
+    }
+
+    .result-header h1 {
+        font-size: 34px;
+        margin-bottom: 10px;
+    }
+
+    .result-header p {
+        opacity: 0.9;
+    }
+
+    .score-card {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
+    }
+
+    .score-circle {
+        width: 170px;
+        height: 170px;
+        margin: 0 auto 20px;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        background: #eef3ff;
+        border: 12px solid #416bb6;
+    }
+
+    .score-circle h2 {
+        font-size: 42px;
+        color: #173b7a;
+        margin: 0;
+    }
+
+    .score-circle span {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .score-card h2 {
+        color: #173b7a;
+        margin-bottom: 8px;
+    }
+
+    .questions-section {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .questions-section h2 {
+        color: #173b7a;
+        margin-bottom: 20px;
+    }
+
+    .question-card {
+        background: #f6f8fc;
+        padding: 20px;
+        border-radius: 14px;
+        margin-bottom: 18px;
+        border-left: 4px solid #173b7a;
+    }
+
+    .question-card h3 {
+        color: #173b7a;
+        font-size: 17px;
+        margin-bottom: 10px;
+    }
+
+    .question-card p {
+        color: #555;
+        line-height: 1.6;
+        margin: 7px 0;
+    }
+
+    .score-badge {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: #e8f7ed;
+        color: #1f7a45;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 13px 22px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .dashboard-btn {
+        background: #173b7a;
+        color: white;
+    }
+
+    .dashboard-btn:hover {
+        background: #0f2854;
+        transform: translateY(-3px);
+    }
+
+    .jobs-btn {
+        background: #eef3ff;
+        color: #173b7a;
+    }
+
+    .jobs-btn:hover {
+        background: #dfe7fb;
+        transform: translateY(-3px);
+    }
+
+    @media (max-width: 600px) {
+
+        .result-header h1 {
+            font-size: 28px;
+        }
+
+        .score-circle {
+            width: 145px;
+            height: 145px;
+        }
+
+        .score-circle h2 {
+            font-size: 34px;
+        }
+
+        .questions-section,
+        .score-card {
+            padding: 22px;
+        }
+
+    }
+
+</style>
+
+
+<div class="result-page">
+
+    <!-- HEADER -->
+
+    <div class="result-header">
+
+        <h1>
+            🎉 AI Interview Completed
+        </h1>
+
+        <p>
+            Your interview evaluation has been completed.
+        </p>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="score-card">
+
+        <div class="score-circle">
+
+            <h2>
+                {{ total_score }}%
+            </h2>
+
+            <span>
+                Interview Score
+            </span>
+
+        </div>
+
+        <h2>
+            AI Interview Result
+        </h2>
+
+        <p>
+            Your score is based on the answers provided during the interview.
+        </p>
+
+    </div>
+
+
+    <!-- QUESTIONS -->
+
+    <div class="questions-section">
+
+        <h2>
+            📝 Interview Review
+        </h2>
+
+
+        {% for question in questions %}
+
+            <div class="question-card">
+
+                <h3>
+                    Question {{ forloop.counter }}
+                </h3>
+
+                <p>
+                    <strong>Question:</strong>
+                    {{ question.question }}
+                </p>
+
+                <p>
+                    <strong>Your Answer:</strong>
+                    {% if question.answer %}
+                        {{ question.answer }}
+                    {% else %}
+                        No answer provided.
+                    {% endif %}
+                </p>
+
+                <span class="score-badge">
+                    Score: {{ question.score }}/10
+                </span>
+
+            </div>
+
+        {% endfor %}
+
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            <a
+                href="{% url 'candidate_dashboard' %}"
+                class="btn dashboard-btn"
+            >
+                ← Back to Dashboard
+            </a>
+
+            <a
+                href="{% url 'application_status' %}"
+                class="btn jobs-btn"
+            >
+                View Applications
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

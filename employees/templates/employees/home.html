@@ -1,0 +1,555 @@
+
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<style>
+    .home-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px 20px 60px;
+    }
+
+    .home-hero {
+        background: linear-gradient(135deg, #173b7a, #416bb6);
+        color: white;
+        border-radius: 25px;
+        padding: 65px 45px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(23, 59, 122, 0.18);
+        animation: heroIn 0.8s ease;
+    }
+
+    @keyframes heroIn {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .home-hero .tag {
+        display: inline-block;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 13px;
+        margin-bottom: 18px;
+    }
+
+    .home-hero h1 {
+        font-size: 46px;
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+
+    .home-hero p {
+        max-width: 760px;
+        margin: auto;
+        font-size: 17px;
+        line-height: 1.7;
+        opacity: 0.93;
+    }
+
+    .hero-buttons {
+        margin-top: 28px;
+    }
+
+    /* HOME PAGE SEARCH ENGINE */
+    .home-search {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        max-width: 900px;
+        margin: 30px auto 8px;
+    }
+
+    .home-search input {
+        box-sizing: border-box;
+        width: 280px;
+        max-width: 100%;
+        padding: 15px 16px;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 9px;
+        background: white;
+        color: #173b7a;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .home-search input:focus {
+        box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
+    }
+
+    .home-search button {
+        padding: 15px 24px;
+        border: 0;
+        border-radius: 9px;
+        background: white;
+        color: #173b7a;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .home-search button:hover {
+        background: #e5edff;
+        transform: translateY(-2px);
+    }
+
+    .hero-btn {
+        display: inline-block;
+        padding: 13px 23px;
+        margin: 6px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .hero-primary {
+        background: white;
+        color: #173b7a;
+    }
+
+    .hero-secondary {
+        background: rgba(255,255,255,0.12);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-btn:hover {
+        transform: translateY(-4px);
+    }
+
+    .section-title {
+        text-align: center;
+        margin: 55px 0 28px;
+    }
+
+    .section-title h2 {
+        color: #173b7a;
+        font-size: 31px;
+        margin-bottom: 8px;
+    }
+
+    .section-title p {
+        color: #666;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 18px;
+        padding: 28px 24px;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid #e7ebf2;
+        box-shadow: 0 7px 20px rgba(0,0,0,0.07);
+        transition: 0.35s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 30px rgba(23,59,122,0.13);
+        border-color: #173b7a;
+    }
+
+    .feature-icon {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+        color: #173b7a;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        color: #666;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+    .feature-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: #173b7a;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+
+    .step-card {
+        background: white;
+        border-radius: 17px;
+        padding: 24px 18px;
+        text-align: center;
+        box-shadow: 0 7px 18px rgba(0,0,0,0.06);
+        transition: 0.3s;
+    }
+
+    .step-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .step-number {
+        width: 45px;
+        height: 45px;
+        margin: auto auto 14px;
+        background: #173b7a;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .step-card h4 {
+        color: #173b7a;
+        margin-bottom: 8px;
+    }
+
+    .step-card p {
+        color: #777;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .role-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+    }
+
+    .role-card {
+        background: white;
+        padding: 30px;
+        border-radius: 19px;
+        box-shadow: 0 7px 20px rgba(0,0,0,0.07);
+        border-left: 5px solid #173b7a;
+    }
+
+    .role-card h3 {
+        color: #173b7a;
+        margin-bottom: 12px;
+    }
+
+    .role-card p {
+        color: #666;
+        line-height: 1.7;
+    }
+
+    .ai-card {
+        background: linear-gradient(135deg, #f3f6ff, #ffffff);
+    }
+
+    .cta {
+        margin-top: 55px;
+        padding: 40px 25px;
+        text-align: center;
+        background: #eef3ff;
+        border-radius: 22px;
+    }
+
+    .cta h2 {
+        color: #173b7a;
+        margin-bottom: 10px;
+    }
+
+    .cta p {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .cta-btn {
+        display: inline-block;
+        padding: 13px 24px;
+        background: #173b7a;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .cta-btn:hover {
+        background: #0f2854;
+        transform: translateY(-3px);
+    }
+
+    @media(max-width: 900px) {
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .steps {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .home-hero h1 {
+            font-size: 38px;
+        }
+    }
+
+    @media(max-width: 600px) {
+        .home-container {
+            padding: 20px 15px 40px;
+        }
+
+        .home-hero {
+            padding: 45px 22px;
+        }
+
+        .home-hero h1 {
+            font-size: 30px;
+        }
+
+        .home-search {
+            flex-direction: column;
+        }
+
+        .home-search input,
+        .home-search button {
+            width: 100%;
+        }
+
+        .steps,
+        .role-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="home-container">
+
+    <!-- HERO SECTION -->
+    <section class="home-hero">
+
+        <div class="tag">
+            Smart Recruitment Platform
+        </div>
+
+        <h1>
+            Smart Recruitment Management System
+        </h1>
+
+        <p>
+            Connect candidates and HR through one platform for
+            jobs, applications, interviews and recruitment management.
+        </p>
+
+        <!-- HOME PAGE SEARCH ENGINE -->
+        <form method="GET" action="{% url 'available_jobs' %}" class="home-search">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search job title, company or skills..."
+                aria-label="Search job title, company or skills"
+            >
+
+            <input
+                type="text"
+                name="location"
+                placeholder="Enter location..."
+                aria-label="Enter location"
+            >
+
+            <button type="submit">
+                &#128269; Search Jobs
+            </button>
+
+        </form>
+
+        <div class="hero-buttons">
+
+            <a href="{% url 'available_jobs' %}"
+               class="hero-btn hero-primary">
+                Explore Jobs →
+            </a>
+
+            <a href="{% url 'register' %}"
+               class="hero-btn hero-secondary">
+                Create Account
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- FEATURES -->
+    <div class="section-title">
+        <h2>What You Can Do</h2>
+        <p>Simple and useful recruitment features.</p>
+    </div>
+
+    <div class="feature-grid">
+
+        <a href="{% url 'available_jobs' %}" class="feature-card">
+            <div class="feature-icon">🔎</div>
+            <h3>Find Your Dream Job</h3>
+            <p>
+                Explore available jobs and view complete
+                job details.
+            </p>
+            <span class="feature-link">Explore Jobs →</span>
+        </a>
+
+        <a href="{% url 'login' %}" class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>Quick & Easy Apply</h3>
+            <p>
+                Login to your candidate account and apply
+                for suitable jobs.
+            </p>
+            <span class="feature-link">Login to Apply →</span>
+        </a>
+
+        <a href="{% url 'application_status' %}" class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Track Your Application</h3>
+            <p>
+                Check your application status and interview
+                details in one place.
+            </p>
+            <span class="feature-link">Track Status →</span>
+        </a>
+
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-title">
+        <h2>How It Works</h2>
+        <p>A simple recruitment journey.</p>
+    </div>
+
+    <div class="steps">
+
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <h4>Register</h4>
+            <p>Create your candidate account.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <h4>Find Jobs</h4>
+            <p>Browse jobs and view job details.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <h4>Apply</h4>
+            <p>Apply for suitable opportunities.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">4</div>
+            <h4>Interview</h4>
+            <p>Participate after shortlisting.</p>
+        </div>
+
+    </div>
+
+    <!-- CANDIDATE / HR -->
+    <div class="section-title">
+        <h2>Designed for Candidates & HR</h2>
+    </div>
+
+    <div class="role-grid">
+
+        <div class="role-card">
+            <h3>👨‍💻 Candidate</h3>
+            <p>
+                Register, create a profile, upload a resume,
+                explore jobs, apply online, track applications
+                and participate in interviews.
+            </p>
+        </div>
+
+        <div class="role-card">
+            <h3>👔 HR / Admin</h3>
+            <p>
+                Post and manage jobs, review candidates,
+                manage applications, update status,
+                shortlist candidates and schedule interviews.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- SMART FEATURES -->
+    <div class="section-title">
+        <h2>Smart Features</h2>
+        <p>Technology-assisted recruitment functionality.</p>
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card ai-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Job Skill Matching</h3>
+            <p>
+                Compare candidate skills with job requirements
+                and show a basic match score.
+            </p>
+        </div>
+
+        <div class="feature-card ai-card">
+            <div class="feature-icon">💬</div>
+            <h3>AI Interview</h3>
+            <p>
+                Shortlisted candidates can answer interview
+                questions and receive an automated score.
+            </p>
+        </div>
+
+        <div class="feature-card ai-card">
+            <div class="feature-icon">📅</div>
+            <h3>Interview Scheduling</h3>
+            <p>
+                HR can schedule date, time and mode
+                for shortlisted candidates.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- CTA -->
+    <section class="cta">
+
+        <h2>Ready to Start?</h2>
+
+        <p>
+            Explore opportunities and begin your recruitment journey.
+        </p>
+
+        <a href="{% url 'register' %}" class="cta-btn">
+            Get Started →
+        </a>
+
+    </section>
+
+</div>
+
+{% endblock %}

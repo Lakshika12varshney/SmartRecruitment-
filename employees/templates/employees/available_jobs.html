@@ -1,0 +1,77 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<h1 style="text-align:center; color:#173b7a; margin-bottom:30px;">
+    Available Jobs
+</h1>
+
+{% if jobs %}
+
+    <div style="
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:25px;
+    ">
+
+        {% for job in jobs %}
+
+            <div style="
+                background:white;
+                width:320px;
+                padding:25px;
+                border-radius:10px;
+                box-shadow:0 3px 10px rgba(0,0,0,0.1);
+            ">
+
+                <h2 style="color:#173b7a;">
+                    {{ job.title }}
+                </h2>
+
+                <p>
+                    <strong>Company:</strong>
+                    {{ job.company }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ job.location }}
+                </p>
+
+                <p>
+                    <strong>Experience:</strong>
+                    {{ job.experience }} years
+                </p>
+
+                <p>
+                    <strong>Salary:</strong>
+                    {{ job.salary }}
+                </p>
+
+                <br>
+
+                <a href="{% url 'job_details' job.id %}"
+                   class="btn">
+                    View Details
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div style="text-align:center;">
+
+        <p>
+            No jobs are available right now.
+        </p>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

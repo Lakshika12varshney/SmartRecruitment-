@@ -1,0 +1,245 @@
+{% extends 'employees/base.html' %}
+{% url 'ai_job_match' job.id %}
+{% block content %}
+
+<style>
+    .job-page {
+        max-width: 850px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .job-card {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .job-title {
+        color: #173b7a;
+        font-size: 34px;
+        margin-bottom: 8px;
+    }
+
+    .company {
+        color: #555;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .job-info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin: 25px 0;
+    }
+
+    .info-box {
+        background: #f4f7fb;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .info-box span {
+        display: block;
+        font-size: 13px;
+        color: #777;
+        margin-bottom: 5px;
+    }
+
+    .info-box strong {
+        color: #222;
+    }
+
+    .section-title {
+        color: #173b7a;
+        margin-top: 28px;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        color: #555;
+        line-height: 1.7;
+    }
+
+    .skills {
+        background: #f4f7fb;
+        padding: 15px;
+        border-radius: 12px;
+        color: #444;
+        line-height: 1.6;
+    }
+
+    .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 13px 22px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .apply-btn {
+        background: #173b7a;
+        color: white;
+    }
+
+    .apply-btn:hover {
+        background: #0f2854;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(23, 59, 122, 0.2);
+    }
+
+    .ai-btn {
+        background: #eef3ff;
+        color: #173b7a;
+        border: 1px solid #cfd9f0;
+    }
+
+    .ai-btn:hover {
+        background: #dfe8ff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(23, 59, 122, 0.12);
+    }
+
+    .back-btn {
+        background: #eeeeee;
+        color: #333;
+    }
+
+    .back-btn:hover {
+        background: #dddddd;
+        transform: translateY(-3px);
+    }
+
+    @media (max-width: 700px) {
+        .job-info {
+            grid-template-columns: 1fr;
+        }
+
+        .job-card {
+            padding: 25px;
+        }
+
+        .job-title {
+            font-size: 28px;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            text-align: center;
+        }
+    }
+</style>
+
+
+<div class="job-page">
+
+    <div class="job-card">
+
+        <!-- JOB TITLE -->
+
+        <h1 class="job-title">
+            {{ job.title }}
+        </h1>
+
+        <div class="company">
+            {{ job.company }}
+        </div>
+
+
+        <!-- JOB INFORMATION -->
+
+        <div class="job-info">
+
+            <div class="info-box">
+                <span>📍 Location</span>
+                <strong>{{ job.location }}</strong>
+            </div>
+
+            <div class="info-box">
+                <span>💼 Experience</span>
+                <strong>{{ job.experience }} years</strong>
+            </div>
+
+            <div class="info-box">
+                <span>💰 Salary</span>
+                <strong>{{ job.salary }}</strong>
+            </div>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <h3 class="section-title">
+            Job Description
+        </h3>
+
+        <p class="description">
+            {{ job.description }}
+        </p>
+
+
+        <!-- REQUIRED SKILLS -->
+
+        <h3 class="section-title">
+            Required Skills
+        </h3>
+
+        <div class="skills">
+            {{ job.required_skills }}
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="actions">
+
+            <a href="{% url 'ai_job_match' job.id %}"
+               class="btn ai-btn">
+                🤖 Check AI Match
+            </a>
+
+            <a href="{% url 'apply_job' job.id %}"
+               class="btn apply-btn">
+                🚀 Apply Now
+            </a>
+
+            <a href="{% url 'available_jobs' %}"
+               class="btn back-btn">
+                ← Back to Jobs
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

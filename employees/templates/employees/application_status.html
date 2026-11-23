@@ -1,0 +1,335 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<style>
+
+    .application-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #173b7a;
+        margin-bottom: 35px;
+        font-size: 34px;
+    }
+
+    .application-card {
+        background: white;
+        padding: 28px;
+        margin-bottom: 22px;
+        border-radius: 18px;
+        box-shadow: 0 7px 22px rgba(0,0,0,0.08);
+        transition: 0.3s ease;
+        animation: cardShow 0.7s ease both;
+    }
+
+    .application-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(23,59,122,0.12);
+    }
+
+    @keyframes cardShow {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .application-card h2 {
+        color: #173b7a;
+        margin-bottom: 15px;
+    }
+
+    .application-card p {
+        margin: 9px 0;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .status {
+        display: inline-block;
+        margin-top: 5px;
+        padding: 7px 14px;
+        border-radius: 20px;
+        background: #eef3ff;
+        color: #173b7a;
+        font-weight: bold;
+    }
+
+    .interview-box {
+        margin-top: 22px;
+        padding: 18px;
+        background: #f6f8fc;
+        border-radius: 13px;
+        border-left: 4px solid #173b7a;
+    }
+
+    .interview-box h3 {
+        color: #173b7a;
+        margin-bottom: 12px;
+    }
+
+    .interview-box p {
+        margin: 7px 0;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .ai-btn {
+        background: #173b7a;
+        color: white;
+    }
+
+    .ai-btn:hover {
+        background: #0f2854;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(23,59,122,0.18);
+    }
+
+    .jobs-btn {
+        background: #eef3ff;
+        color: #173b7a;
+    }
+
+    .jobs-btn:hover {
+        background: #dde7ff;
+        transform: translateY(-3px);
+    }
+
+    .result-btn {
+        background: #e8f7ed;
+        color: #1f7a45;
+    }
+
+    .result-btn:hover {
+        background: #d9f1e1;
+        transform: translateY(-3px);
+    }
+
+    .empty-box {
+        background: white;
+        padding: 45px;
+        text-align: center;
+        border-radius: 18px;
+        box-shadow: 0 7px 22px rgba(0,0,0,0.08);
+    }
+
+    .empty-box h2 {
+        color: #173b7a;
+        margin-bottom: 10px;
+    }
+
+    .bottom-action {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+</style>
+
+
+<div class="application-container">
+
+    <h1 class="page-title">
+        My Applications
+    </h1>
+
+
+    {% if applications %}
+
+        {% for application in applications %}
+
+            <div class="application-card">
+
+                <h2>
+                    💼 {{ application.job.title }}
+                </h2>
+
+                <p>
+                    <strong>Company:</strong>
+                    {{ application.job.company }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ application.job.location }}
+                </p>
+
+                <p>
+                    <strong>Salary:</strong>
+                    {{ application.job.salary }}
+                </p>
+
+                <p>
+                    <strong>Applied On:</strong>
+                    {{ application.applied_at|date:"d M Y, h:i A" }}
+                </p>
+
+                <p>
+                    <strong>Application Status:</strong>
+
+                    <span class="status">
+                        {{ application.status }}
+                    </span>
+                </p>
+
+
+                <!-- AI INTERVIEW -->
+
+                {% if application.status == 'Shortlisted' %}
+
+                    <div class="interview-box">
+
+                        <h3>
+                            🤖 AI Interview
+                        </h3>
+
+                        <p>
+                            You have been shortlisted for this job.
+                        </p>
+
+                        <div class="actions">
+
+                            <a
+                                href="{% url 'start_ai_interview' application.id %}"
+                                class="btn ai-btn"
+                            >
+                                🚀 Start AI Interview
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% elif application.status == 'Rejected' %}
+
+                    <div class="interview-box">
+
+                        <h3>
+                            Application Update
+                        </h3>
+
+                        <p>
+                            Your application was not shortlisted for the next stage.
+                        </p>
+
+                    </div>
+
+                {% elif application.status == 'Selected' %}
+
+                    <div class="interview-box">
+
+                        <h3>
+                            🎉 Application Selected
+                        </h3>
+
+                        <p>
+                            Congratulations! Your application has been selected.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- SCHEDULED INTERVIEW -->
+
+                {% if application.interview_status == 'Scheduled' %}
+
+                    <div class="interview-box">
+
+                        <h3>
+                            📅 Interview Details
+                        </h3>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ application.interview_status }}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            {{ application.interview_date|date:"d M Y" }}
+                        </p>
+
+                        <p>
+                            <strong>Time:</strong>
+                            {{ application.interview_time|time:"H:i" }}
+                        </p>
+
+                        <p>
+                            <strong>Mode:</strong>
+                            {{ application.interview_mode }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="empty-box">
+
+            <h2>
+                No Applications Yet
+            </h2>
+
+            <p>
+                You have not applied for any job yet.
+            </p>
+
+            <br>
+
+            <a
+                href="{% url 'available_jobs' %}"
+                class="btn jobs-btn"
+            >
+                Browse Jobs
+            </a>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="bottom-action">
+
+        <a
+            href="{% url 'candidate_dashboard' %}"
+            class="btn jobs-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

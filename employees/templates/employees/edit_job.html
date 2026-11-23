@@ -1,0 +1,225 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<style>
+    .edit-container {
+        max-width: 850px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .edit-box {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .edit-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .edit-header h1 {
+        font-size: 34px;
+        margin-bottom: 8px;
+    }
+
+    .edit-header p {
+        color: #666;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 15px;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #5b4bdb;
+        box-shadow: 0 0 0 3px rgba(91,75,219,0.1);
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .save-btn,
+    .cancel-btn {
+        flex: 1;
+        padding: 13px;
+        border-radius: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+    }
+
+    .save-btn {
+        background: #5b4bdb;
+        color: white;
+    }
+
+    .save-btn:hover {
+        background: #4938c7;
+    }
+
+    .cancel-btn {
+        background: #eee;
+        color: #333;
+    }
+
+    .cancel-btn:hover {
+        background: #ddd;
+    }
+
+    @media (max-width: 650px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .edit-box {
+            padding: 22px;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="edit-container">
+
+    <div class="edit-box">
+
+        <div class="edit-header">
+            <h1>✏ Edit Job</h1>
+            <p>Update the job posting details</p>
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Job Title</label>
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ job.title }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Company</label>
+                <input
+                    type="text"
+                    name="company"
+                    value="{{ job.company }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Job Description</label>
+                <textarea
+                    name="description"
+                    required
+                >{{ job.description }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Required Skills</label>
+                <textarea
+                    name="required_skills"
+                    required
+                >{{ job.required_skills }}</textarea>
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Experience (Years)</label>
+                    <input
+                        type="number"
+                        name="experience"
+                        value="{{ job.experience }}"
+                        min="0"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input
+                        type="text"
+                        name="location"
+                        value="{{ job.location }}"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Salary</label>
+                <input
+                    type="text"
+                    name="salary"
+                    value="{{ job.salary }}"
+                    required
+                >
+            </div>
+
+            <div class="actions">
+
+                <button type="submit" class="save-btn">
+                    💾 Save Changes
+                </button>
+
+                <a href="{% url 'manage_jobs' %}" class="cancel-btn">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

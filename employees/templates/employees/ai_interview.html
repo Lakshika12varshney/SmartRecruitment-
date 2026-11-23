@@ -1,0 +1,241 @@
+{% extends 'employees/base.html' %}
+
+{% block content %}
+
+<style>
+    .interview-page {
+        max-width: 850px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .interview-header {
+        background: linear-gradient(135deg, #173b7a, #416bb6);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(23, 59, 122, 0.18);
+    }
+
+    .interview-header h1 {
+        margin-bottom: 8px;
+        font-size: 32px;
+    }
+
+    .interview-header p {
+        opacity: 0.9;
+    }
+
+    .progress-box {
+        background: white;
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+    }
+
+    .progress-text {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 10px;
+        background: #e8edf5;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        width: {% widthratio answered_questions total_questions 100 %}%;
+        background: #173b7a;
+        border-radius: 20px;
+    }
+
+    .question-card {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .question-number {
+        color: #416bb6;
+        font-weight: bold;
+        margin-bottom: 12px;
+        font-size: 15px;
+    }
+
+    .question-card h2 {
+        color: #173b7a;
+        font-size: 25px;
+        line-height: 1.5;
+        margin-bottom: 25px;
+    }
+
+    .answer-label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .answer-box {
+        width: 100%;
+        min-height: 180px;
+        padding: 15px;
+        border: 1px solid #d5ddea;
+        border-radius: 12px;
+        resize: vertical;
+        font-size: 16px;
+        line-height: 1.5;
+        box-sizing: border-box;
+        outline: none;
+        font-family: Arial, sans-serif;
+    }
+
+    .answer-box:focus {
+        border-color: #173b7a;
+        box-shadow: 0 0 0 3px rgba(23, 59, 122, 0.1);
+    }
+
+    .submit-btn {
+        margin-top: 20px;
+        width: 100%;
+        padding: 14px;
+        background: #173b7a;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background: #0f2854;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(23, 59, 122, 0.2);
+    }
+
+    .note {
+        margin-top: 15px;
+        text-align: center;
+        color: #777;
+        font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+        .interview-page {
+            margin: 25px auto;
+        }
+
+        .interview-header h1 {
+            font-size: 27px;
+        }
+
+        .question-card {
+            padding: 24px;
+        }
+
+        .question-card h2 {
+            font-size: 21px;
+        }
+    }
+</style>
+
+
+<div class="interview-page">
+
+    <!-- HEADER -->
+
+    <div class="interview-header">
+
+        <h1>🤖 AI Interview</h1>
+
+        <p>
+            Answer each question carefully and submit your response.
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-box">
+
+        <div class="progress-text">
+
+            <span>
+                Interview Progress
+            </span>
+
+            <span>
+                {{ answered_questions }} / {{ total_questions }}
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUESTION -->
+
+    <div class="question-card">
+
+        <div class="question-number">
+            Question {{ answered_questions|add:"1" }} of {{ total_questions }}
+        </div>
+
+        <h2>
+            {{ question.question }}
+        </h2>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label class="answer-label">
+                Your Answer
+            </label>
+
+            <textarea
+                name="answer"
+                class="answer-box"
+                placeholder="Type your answer here..."
+                required
+            ></textarea>
+
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+                Submit Answer →
+            </button>
+
+        </form>
+
+        <div class="note">
+            Your answer will be evaluated automatically.
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
