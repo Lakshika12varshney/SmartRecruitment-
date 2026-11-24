@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yp5nfc*91(6^=%n(9trf)t%i-!+)3$^jf*@gzal^8r!ul7ohwo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "smartrecruitment-vknn.onrender.com",
